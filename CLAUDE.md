@@ -1,43 +1,74 @@
-# CLAUDE.md
+# Coding Principles
 
-## Workflow
-- Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
-- If something goes sideways: STOP and re-plan — do not keep pushing
-- Write detailed specs upfront to reduce ambiguity
-- Use subagents to keep main context window clean — one task per subagent
+## 1. Think Before Coding
 
-## Code Quality
-- Simplicity first — make every change as simple as possible, minimal code impact
-- No laziness — find root causes, no temporary fixes, senior developer standards
-- For non-trivial changes: pause and ask "is there a more elegant way?"
-- If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
-- Skip elegance check for simple, obvious fixes — don't over-engineer
+Before implementing:
+- State assumptions that affect correctness.
+- If multiple interpretations exist, present them briefly.
+- If ambiguity changes the solution, ask before coding.
+- If ambiguity is minor, state the assumption and proceed with the simplest safe option.
+- Prefer the simpler approach. Push back on unnecessary complexity.
 
-## Verification
-- Never mark a task complete without proving it works
-- Run tests, check logs, demonstrate correctness
-- Ask yourself: "Would a staff engineer approve this?"
+## 2. Simplicity First
 
-## Bug Fixing
-- When given a bug report: just fix it, don't ask for hand-holding
-- Point at logs, errors, failing tests — then resolve them
-- Go fix failing CI tests without being told how
+Write Use as little code as possible that solves the problem.
+- No speculative features.
+- No abstractions for single-use logic.
+- No unnecessary configurability.
+- No error handling for impossible scenarios.
+- If the solution feels overbuilt, simplify it.
 
-## Self-Improvement
-- After ANY correction from the user: update `tasks/lessons.md` with the pattern
-- Write rules for yourself that prevent the same mistake
-- Review lessons at session start for relevant project
+## 3. Surgical Changes
 
-## Spec-Driven Development
-- For any non-trivial task: spec file must exist at `specs/<feature>.md` before writing code
-- Spec must have `status: approved` — draft is not enough
-- Show the spec to the user and wait for confirmation before implementing
-- If the user skips spec and asks for code directly: write the spec first, then confirm
+When editing existing code:
+- Follow with SOLID, Clean architecture
+- Touch only files and lines required by the request.
+- Do not refactor unrelated code.
+- Do not reformat unrelated code.
+- Match the existing style.
+- Remove only unused imports, variables, or functions caused by your own changes.
+- Mention unrelated issues instead of fixing them.
 
-## Never
-- Modify unrelated code
-- Install new dependencies without asking
-- Leave TODO / FIXME without flagging it in the task summary
-- Swallow errors silently in try/catch
-- Write implementation code without an approved spec for non-trivial features
-- Mark a task done if any Acceptance Criteria from the spec are unverified
+Every changed line should trace directly to the request.
+
+## 4. Goal-Driven Execution
+
+Turn tasks into verifiable goals.
+
+Examples:
+- "Fix bug" → reproduce with a test or clear failing case, then fix.
+- "Add validation" → test invalid inputs, then implement.
+- "Refactor" → confirm behavior before and after.
+
+For multi-step tasks, state:
+1. Step → verification
+2. Step → verification
+3. Step → verification
+
+## 5. Project Awareness
+
+Before coding:
+- Read nearby code.
+- Check existing patterns.
+- Check relevant tests.
+- Check project docs/config when needed.
+
+Do not invent project conventions.
+
+## 6. Verification
+
+After changes:
+- Run the smallest relevant test or check.
+- Run broader checks only when justified.
+- If verification cannot be run, say exactly why.
+- Do not claim success without evidence.
+
+## 7. Reporting Back
+
+When finished, report:
+- What changed.
+- How it was verified.
+- Any remaining risk, only if relevant.
+- Minimal report 
+## 8. Skills
+- use ponytail skill and openspec if needed
